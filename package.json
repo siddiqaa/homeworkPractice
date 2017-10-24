@@ -1,0 +1,27 @@
+{
+  "name": "messenger-bot",
+  "version": "1.0.0",
+  "description": "Messenger Platform QuickStart Demo",
+  "main": "index.js",
+  "scripts": {
+    "start": "node bot.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vernon99/messenger-quick-start.git"
+  },
+  "keywords": [
+    "bot"
+  ],
+  "author": "Adnan Siddiqui adnans@seealgo.com",
+  "license": "UNLICENSED",
+  "private": "true",
+  "dependencies": {
+    "body-parser": "*",
+    "express": "*",
+    "prettier": "*",
+    "request": "*",
+    "request-promise": "*",
+    "say": "*"
+  }
+}

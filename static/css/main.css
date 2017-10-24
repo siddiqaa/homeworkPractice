@@ -1,0 +1,25 @@
+body
+{
+  text-align: center;
+}
+
+#spellingEntered
+{
+  color: white;
+  size: 1;
+  outline: none;
+  font-size: .1em;
+}
+#errorMessage
+{
+  font-size: 4em;
+  color: blue;
+}
+#replay
+{
+  font-size: 4em;
+}
+#score
+{
+  font-size: 8em;
+}

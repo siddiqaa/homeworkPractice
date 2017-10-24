@@ -8,19 +8,22 @@ var score = 0;
 
 document.onkeyup = function(e) {
   
-  
+  $('#errorMessage').html('');
   if (e.keyCode == 13) {
     getBotResponse();
   }
   else if (e.keyCode == 8)
     {
-      $('#userInputEcho').children().last().remove();
+      $('#userInputEcho').children().eq(letterIndex-1).remove();
+      var underScore = "<span style='font-size:96px;'>-</span>";
+      $('#userInputEcho').append(underScore);
       letterIndex -= 1;
     }
   else 
     {
       if (event.keyCode >= 65 && event.keyCode <= 90)
     { 
+      
       
       var typedLetterColor;
       if (wordToSpell[letterIndex] == String.fromCharCode(event.keyCode).toLowerCase())
@@ -31,16 +34,25 @@ document.onkeyup = function(e) {
         {
            typedLetterColor = 'red';
         }
+      for(var i = wordToSpell.length; i > letterIndex; i--)
+        {
+          $('#userInputEcho').children().last().remove();
+        }
+      
       var typedLetter = "<span style='color:"+typedLetterColor + ";font-size:96px;'>"+String.fromCharCode(event.keyCode).toLowerCase()+"</span>";
       $('#userInputEcho').append(typedLetter);
-      $("#spellingEntered").val('');
+
+        for(var i = letterIndex + 1; i < wordToSpell.length; i++)
+        {
+          var underScore = "<span style='font-size:96px;'>-</span>";
+          $('#userInputEcho').append(underScore);
+        }
 
       letterIndex += 1;
     }
       else
         {
           $('#errorMessage').html("Please enter the letters one at a time slowly");
-          $("#spellingEntered").val('');
           letterIndex = 0;
            $('#userInputEcho').empty();
         }
@@ -83,15 +95,12 @@ function getBotResponse() {
         }
       console.log("Score is " + score);
       $('#score').html(score);
-      wordToSpell = response.newWord;
+      
       sayText(response.checkResult);
-      sayText("Can you now spell, ");
-      sayText(wordToSpell, 0.5);
-       
-      $("#spellingEntered").val('');
+      updateWord(response.newWord);
+
       letterIndex = 0;
-      $('#userInputEcho').empty();
-      $('score').html(score);
+      $('#score').html("Score : " + score);
      
     },
     error: function(jqXHR, textStatus, errorThrown) {
@@ -107,6 +116,20 @@ function sayText(textMessage, rate = 1)
       msg.rate = rate;
       msg.voice = speechSynthesis.getVoices().filter(function(voice) { return voice.name == "Google US English" })[0];
     window.speechSynthesis.speak(msg);
+}
+
+function updateWord(word)
+{
+  wordToSpell = word;
+  $('#userInputEcho').empty();
+  sayText("Can you now spell, ");
+  sayText(wordToSpell, 0.5);
+  for (var i = 0; i < wordToSpell.length; i++)
+{
+  var underScore = "<span style='font-size:96px;'>-</span>";
+  $('#userInputEcho').append(underScore);
+}
+  
 }
 
 function replayWord()

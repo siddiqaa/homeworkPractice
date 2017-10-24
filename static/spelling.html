@@ -1,0 +1,43 @@
+<html>
+<head>
+  <title>Spelling Practice</title>
+  <link rel="manifest" href="/manifest.json">
+  <link rel="stylesheet" href="./css/main.css">
+    <script src="/scripts/mainBot.js"></script>
+    <script
+  src="https://code.jquery.com/jquery-3.2.1.min.js"
+  integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+  crossorigin="anonymous"></script>
+
+</head>
+<body>
+  <div id="header">
+    
+  </div>
+  <h1>
+    Spelling Practice for First Graders.</h1>
+  <h1>Type the spelling of the word requested.</h1>
+  <h1>Hit the Enter key when done to check your spelling.</h1>
+  <div id="userInputEcho">
+    <span style="font-size:96px;">-</span>
+    <span style="font-size:96px;">-</span>
+    <span style="font-size:96px;">-</span></div>
+  <div id="replay">
+    <span onclick="replayWord()">&#9658</span>
+  </div>
+  <div id="errorMessage">
+    
+  </div>
+  <div id="score">
+    Score: 0
+  </div>
+  <div class="subjectLinkSmall"><br>
+    <a href="math.html">Practice Math</a>
+  </div>
+</body>
+  <script> 
+$(function(){
+  $("#header").load("header.html"); 
+});
+</script>
+</html>

@@ -17,7 +17,9 @@ document.onkeyup = function(e) {
   }
   else if (e.keyCode == 8)
     {
-      $('#userInputEcho').children().last().remove();
+      $('#userInputEcho').children().eq(letterIndex-1).remove();
+     var questionMark = "<span style='font-size:96px;'>?</span>";
+      $('#userInputEcho').append(questionMark);
       letterIndex -= 1;
     }
   else 
@@ -26,7 +28,7 @@ document.onkeyup = function(e) {
       var typedNumber = ''
       if ((event.keyCode >= 48 && event.keyCode <= 57) || (event.keyCode >= 96 && event.keyCode <= 105))
     { 
-      
+      $('#errorMessage').html('');
       if (event.keyCode >= 48 && event.keyCode <= 57)
         {
           typedNumber = String.fromCharCode(event.keyCode);
@@ -35,8 +37,15 @@ document.onkeyup = function(e) {
         {
           typedNumber = event.keyCode-96;
         }
+      
+      
+      for(var i = answerToCheck.toString().length; i > letterIndex; i--)
+        {
+          $('#userInputEcho').children().last().remove();
+        }
+      
       var typedLetterColor;
-      if (answerToCheck.toString()[letterIndex] == typedNumber)
+      if (answerToCheck.toString()[letterIndex] == typedNumber.toString())
       {
         typedLetterColor = 'green';
       }
@@ -47,6 +56,12 @@ document.onkeyup = function(e) {
 
       var typedLetter = "<span style='color:"+typedLetterColor + ";font-size:96px;'>"+typedNumber.toString()+"</span>";
       $('#userInputEcho').append(typedLetter);
+      
+      for(var i = letterIndex + 1; i < answerToCheck.toString().length; i++)
+        {
+          var questionMark = "<span style='font-size:96px;'>?</span>";
+          $('#userInputEcho').append(questionMark);
+        }
 
       letterIndex += 1;
     }
@@ -74,34 +89,34 @@ function checkAnswer() {
  
 
   var checkResult = '';        
-  if (parseInt(numberEntered) == firstInt + secondInt)
+  if (parseInt(numberEntered) == answerToCheck)
     {
       //console.log(result);
       checkResult = "Awesome";
+    }
+  else
+    {
+      checkResult = "Sorry " + firstInt + ' plus ' + secondInt + " is " + answerToCheck;
     }
           
       console.log(checkResult);
       if (checkResult != "Awesome")
          {
-          $('#errorMessage').html(firstInt + secondInt);
+          $('#errorMessage').html(firstInt.toString() + " + " + secondInt.toString() + " is " + answerToCheck);
           score -= 1;
           }
       else 
         {
           score += 1;
-           $('#errorMessage').html('');
+          $('#errorMessage').html('');
         }
       console.log("Score is " + score);
-      $('#score').html(score);
+      $('#score').html("Score : " + score);
       numbersToAdd = firstInt.toString() + " + " + secondInt.toString();
       sayText(checkResult);
-      sayText("Do you know what is, ");
-      sayText(firstInt.toString());
-      sayText('plus');
-      sayText(secondInt.toString());
-       
-      letterIndex = 0;
-      $('#userInputEcho').empty();
+      updateProblem();
+      
+
       $('score').html(score);
      
     
@@ -124,10 +139,32 @@ function replayWord()
   sayText(secondInt.toString());
 }
 
+function getRandomIntInclusive(min, max) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min + 1)) + min; //The maximum is inclusive and the minimum is inclusive 
+}
+
+function updateProblem()
+{
+
+  firstInt = getRandomIntInclusive(1, 10);
+  secondInt = getRandomIntInclusive(1, 10);
+  $('#userInputEcho').empty();
+  sayText("Do you know what is " + firstInt.toString() + ' plus ' + secondInt.toString());
+  letterIndex = 0;
+  $('#problemText').html(firstInt.toString() + " + " + secondInt.toString());
+  answerToCheck = firstInt + secondInt;
+    for (var i = 0; i < answerToCheck.toString().length; i++)
+{
+  var questionMark = "<span style='font-size:96px;'>?</span>";
+  $('#userInputEcho').append(questionMark);
+}
+
+  
+}
+
 window.onload = function() {
-        sayText("Do you know what is, ");
-      sayText(firstInt.toString());
-      sayText('plus');
-      sayText(secondInt.toString());
-   $('#score').html(firstInt.toString() + " + " + secondInt.toString());
+  updateProblem();
+   
 };
